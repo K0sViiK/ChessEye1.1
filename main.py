@@ -7,11 +7,10 @@ class chessboard_scanner():
     def typeout(self, predictions):
         fen_output = ""
         predictions.reshape(64)
-        predictions.reshape(64)
         for i in range(8):
             empty_spaces = 0
             for j in range(8):
-                if self.fen_sign[predictions[i * 8 + j]] == "e":
+                if self.fen_output[predictions[i * 8 + j]] == "e":
                     empty_spaces += 1
                     if j == 7:
                         fen_output += str(empty_spaces)
@@ -19,9 +18,9 @@ class chessboard_scanner():
                     if empty_spaces > 0:
                         fen_output += str(empty_spaces)
                         empty_spaces = 0
-                        fen_output += self.fen_sign[predictions[i * 8 + j]]
+                        fen_output += self.fen_output[predictions[i * 8 + j]]
                     else:
-                        fen_output += self.fen_sign[predictions[i * 8 + j]]
+                        fen_output += self.fen_output[predictions[i * 8 + j]]
             if i != 7:
                 fen_output += "/"
         return fen_output

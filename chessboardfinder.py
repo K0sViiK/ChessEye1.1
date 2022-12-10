@@ -13,10 +13,11 @@ class ChessboardFinder:
                       [0.00000000e+00, 0.00000000e+00, 1.00000000e+00]])
     dist_m = np.array([[2.08959569e-01, -9.49127601e-01, -
     2.70203242e-03, -1.20066339e-04, 1.33323676e+00]])
-    pieceLabels = ["EMPTY", "W_PAWN", "B_PAWN", "W_QUEEN", "B_QUEEN", "W_KING", "B_KING", "W_ROOK", "B_ROOK",
+    pieceLabels = ["EMPTY", "W_PAWN", "B_PAWN", "W_QUEEN", "B_QUEEN",
+                   "W_KING", "B_KING", "W_ROOK", "B_ROOK",
                    "W_KNIGHT", "B_KNIGHT", "W_BISHOP", "B_BISHOP"]
-    maximum_pieces = [np.inf, 8, 8, 1, 1, 1, 1, 2, 2, 2, 2, 2,
-                      2]  # we store the maximal starting amount of pieces, this helps us discard unlikely setups during our scans
+    maximum_pieces = [np.inf, 8, 8, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2]
+    # we store the maximal starting amount of pieces, this helps us discard unlikely setups during our scans
     destination_coordinates = np.array([[0, 80, 0], [80, 80, 0], [0, 0, 0]], dtype=np.float32)
 
     def __init__(self, detection_model_location, classification_model_location):
@@ -32,9 +33,6 @@ class ChessboardFinder:
         self.prepareimg(img)
         predictions = self.detection_model.predict(
             np.expand_dims(self.img_color_rgb, axis=0))
-
-        if (self.overlappingPoints(predictions)):
-            predictions = self.find_corners_rotated(30)
 
         if predictions is None:
             print("Cannot find chessboard. Please try a different input.")
@@ -133,4 +131,3 @@ class ChessboardFinder:
         # resize and prepare the image color
         self.img_color_rgb = cv2.resize(img, (512, 384))
         self.img_color_rgb = cv2.cvtColor(self.img_color_rgb, cv2.COLOR_BGR2RGB)
-        # needed because PILLOW doesn't like BGR
